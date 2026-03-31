@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MAINLAYER_API_KEY = os.getenv("MAINLAYER_API_KEY", "")
-MAINLAYER_BASE_URL = os.getenv("MAINLAYER_BASE_URL", "https://api.mainlayer.xyz")
+MAINLAYER_BASE_URL = os.getenv("MAINLAYER_BASE_URL", "https://api.mainlayer.fr")
 
 RESOURCES = [
     {

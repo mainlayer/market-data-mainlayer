@@ -116,7 +116,7 @@ class PaymentRequiredResponse(BaseModel):
     message: str
     resource_id: str
     price_usd: float
-    how_to_pay: str = "POST https://api.mainlayer.xyz/pay with {resource_id, payer_wallet}"
+    how_to_pay: str = "POST https://api.mainlayer.fr/pay with {resource_id, payer_wallet}"
 
 
 class ErrorResponse(BaseModel):

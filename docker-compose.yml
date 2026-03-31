@@ -9,7 +9,7 @@ services:
       - "8000:8000"
     environment:
       - MAINLAYER_API_KEY=${MAINLAYER_API_KEY}
-      - MAINLAYER_BASE_URL=${MAINLAYER_BASE_URL:-https://api.mainlayer.xyz}
+      - MAINLAYER_BASE_URL=${MAINLAYER_BASE_URL:-https://api.mainlayer.fr}
       - RESOURCE_ID_PRICES=${RESOURCE_ID_PRICES}
       - RESOURCE_ID_HISTORICAL=${RESOURCE_ID_HISTORICAL}
       - RESOURCE_ID_SUMMARY=${RESOURCE_ID_SUMMARY}

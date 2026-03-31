@@ -21,7 +21,7 @@ import httpx
 # --- Configuration -----------------------------------------------------------
 
 API_BASE = os.getenv("MARKET_API_BASE", "http://localhost:8000")
-MAINLAYER_BASE = os.getenv("MAINLAYER_BASE_URL", "https://api.mainlayer.xyz")
+MAINLAYER_BASE = os.getenv("MAINLAYER_BASE_URL", "https://api.mainlayer.fr")
 MAINLAYER_API_KEY = os.getenv("MAINLAYER_API_KEY", "")
 AGENT_WALLET = os.getenv("AGENT_WALLET", "")
 

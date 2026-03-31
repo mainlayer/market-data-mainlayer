@@ -1,6 +1,6 @@
 # Market Data Mainlayer
 
-Real-time market data API with micropayment access — built on [Mainlayer](https://api.mainlayer.xyz), the payment infrastructure for AI agents.
+Real-time market data API with micropayment access — built on [Mainlayer](https://api.mainlayer.fr), the payment infrastructure for AI agents.
 
 AI agents pay **per query**, with no subscription and no monthly commitment. One API call = one payment = one result.
 
@@ -35,7 +35,7 @@ Provides real-time and historical price data for 30 major crypto and equity symb
 
 ### 1. Get a Mainlayer API key
 
-Sign up at [api.mainlayer.xyz](https://api.mainlayer.xyz) to get your API key and a wallet address.
+Sign up at [api.mainlayer.fr](https://api.mainlayer.fr) to get your API key and a wallet address.
 
 ### 2. Clone and configure
 
@@ -77,7 +77,7 @@ Agents follow a simple two-step flow for each query:
 **Step 1 — Pay via Mainlayer:**
 
 ```bash
-curl -X POST https://api.mainlayer.xyz/pay \
+curl -X POST https://api.mainlayer.fr/pay \
   -H "Authorization: Bearer $MAINLAYER_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"resource_id": "<RESOURCE_ID_PRICES>", "payer_wallet": "<YOUR_WALLET>"}'
@@ -211,7 +211,7 @@ If a wallet is missing or the entitlement check fails, the API returns `HTTP 402
   "message": "Payment of $0.0020 required to access this endpoint.",
   "resource_id": "res_abc123",
   "price_usd": 0.002,
-  "how_to_pay": "POST https://api.mainlayer.xyz/pay with {resource_id, payer_wallet}"
+  "how_to_pay": "POST https://api.mainlayer.fr/pay with {resource_id, payer_wallet}"
 }
 ```
 
@@ -239,7 +239,7 @@ pytest tests/ -v
 | Variable | Required | Description |
 |---|---|---|
 | `MAINLAYER_API_KEY` | Yes | Your Mainlayer API key |
-| `MAINLAYER_BASE_URL` | No | Defaults to `https://api.mainlayer.xyz` |
+| `MAINLAYER_BASE_URL` | No | Defaults to `https://api.mainlayer.fr` |
 | `RESOURCE_ID_PRICES` | Yes | Resource ID for price endpoints |
 | `RESOURCE_ID_HISTORICAL` | Yes | Resource ID for history endpoint |
 | `RESOURCE_ID_QUOTES` | Yes | Resource ID for quotes endpoint |
@@ -272,4 +272,4 @@ tests/
 
 ## Powered by Mainlayer
 
-[Mainlayer](https://api.mainlayer.xyz) is payment infrastructure for AI agents — the same way Stripe powers payments for web apps, Mainlayer powers payments for autonomous agents. Agents pay for exactly what they use, with no subscriptions, no contracts, and no human in the loop.
+[Mainlayer](https://api.mainlayer.fr) is payment infrastructure for AI agents — the same way Stripe powers payments for web apps, Mainlayer powers payments for autonomous agents. Agents pay for exactly what they use, with no subscriptions, no contracts, and no human in the loop.

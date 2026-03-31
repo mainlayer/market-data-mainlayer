@@ -3,7 +3,7 @@ Market Data Mainlayer — FastAPI application
 
 AI agents pay per query to access real-time and historical market data.
 Each query costs $0.002. Payment gating is handled by Mainlayer
-(https://api.mainlayer.xyz) — the payment infrastructure for autonomous agents.
+(https://api.mainlayer.fr) — the payment infrastructure for autonomous agents.
 """
 
 import logging
@@ -98,7 +98,7 @@ async def list_resources() -> ResourcesResponse:
         service=settings.app_name,
         version=settings.app_version,
         payment_provider="Mainlayer",
-        payment_docs="https://api.mainlayer.xyz/docs",
+        payment_docs="https://api.mainlayer.fr/docs",
         available_symbols=sorted(market_data.ALL_SYMBOLS),
         resources=[
             ResourceItem(

@@ -8,7 +8,7 @@ load_dotenv()
 
 class Settings:
     mainlayer_api_key: str = os.getenv("MAINLAYER_API_KEY", "")
-    mainlayer_base_url: str = os.getenv("MAINLAYER_BASE_URL", "https://api.mainlayer.xyz")
+    mainlayer_base_url: str = os.getenv("MAINLAYER_BASE_URL", "https://api.mainlayer.fr")
 
     # Resource IDs registered on Mainlayer (populated after running scripts/setup.py)
     resource_id_prices: str = os.getenv("RESOURCE_ID_PRICES", "")

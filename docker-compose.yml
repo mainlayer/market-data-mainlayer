@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MAINLAYER_API_KEY=${MAINLAYER_API_KEY}
+      - MAINLAYER_BASE_URL=${MAINLAYER_BASE_URL:-https://api.mainlayer.xyz}
+      - RESOURCE_ID_PRICES=${RESOURCE_ID_PRICES}
+      - RESOURCE_ID_HISTORICAL=${RESOURCE_ID_HISTORICAL}
+      - RESOURCE_ID_SUMMARY=${RESOURCE_ID_SUMMARY}
+      - RESOURCE_ID_QUOTES=${RESOURCE_ID_QUOTES}
+      - DEBUG=${DEBUG:-false}
+    volumes:
+      - ./.env:/app/.env:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

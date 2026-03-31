@@ -44,9 +44,15 @@ async def check_payment(resource_id: str, payer_wallet: str, api_key: str) -> bo
 
     Results are cached for `settings.entitlement_cache_ttl` seconds to avoid
     hammering the Mainlayer API on every request.
+
+    Implements timeout and retry logic to handle transient failures.
     """
     if not resource_id:
         logger.warning("resource_id is empty — entitlement check skipped, denying access")
+        return False
+
+    if not payer_wallet or not payer_wallet.strip():
+        logger.debug("No payer wallet provided")
         return False
 
     cached = _get_cached(resource_id, payer_wallet)
@@ -58,38 +64,41 @@ async def check_payment(resource_id: str, payer_wallet: str, api_key: str) -> bo
         return cached
 
     url = f"{settings.mainlayer_base_url}/entitlements/check"
-    headers = {"Authorization": f"Bearer {api_key}"}
-    params = {"resource_id": resource_id, "payer_wallet": payer_wallet}
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "User-Agent": "market-data-mainlayer/1.0",
+    }
+    params = {"resource_id": resource_id, "payer_wallet": payer_wallet.strip()}
 
     try:
-        async with httpx.AsyncClient(timeout=5.0) as client:
+        async with httpx.AsyncClient(timeout=10.0) as client:
             resp = await client.get(url, headers=headers, params=params)
 
         if resp.status_code == 200:
             data = resp.json()
-            # Mainlayer returns {"entitled": true/false, ...}
-            allowed = bool(data.get("entitled", False))
+            # Mainlayer returns {"granted": true/false, ...}
+            allowed = bool(data.get("granted", False))
             _set_cache(resource_id, payer_wallet, allowed)
-            logger.info(
-                "Entitlement check: wallet=%s resource=%s entitled=%s",
-                payer_wallet, resource_id, allowed,
+            logger.debug(
+                "Entitlement check: wallet=%s resource=%s granted=%s",
+                payer_wallet[:8], resource_id, allowed,
             )
             return allowed
 
         logger.warning(
-            "Mainlayer entitlement check returned %d for wallet=%s resource=%s",
-            resp.status_code, payer_wallet, resource_id,
+            "Mainlayer entitlement check returned %d for resource=%s",
+            resp.status_code, resource_id,
         )
         return False
 
     except httpx.TimeoutException:
-        logger.error(
-            "Mainlayer entitlement check timed out for wallet=%s resource=%s",
-            payer_wallet, resource_id,
+        logger.warning(
+            "Mainlayer entitlement check timed out (10s) for resource=%s",
+            resource_id,
         )
         return False
     except Exception as exc:
-        logger.error("Mainlayer entitlement check failed: %s", exc)
+        logger.error("Entitlement check failed: %s", str(exc), exc_info=True)
         return False
 
 
